@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MESACERTA - Reserva de Restaurantes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">MESACERTA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" id="home-link">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="restaurants-link">Restaurantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="reservations-link">Minhas Reservas</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-light me-2" id="login-btn">Login</button>
+                    <button class="btn btn-light" id="register-btn">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="container mt-4">
+        <!-- Página inicial (visível por padrão) -->
+        <div id="home-page" class="page active">
+            <div class="jumbotron bg-light p-5 rounded">
+                <h1 class="display-4">Bem-vindo ao MESACERTA!</h1>
+                <p class="lead">A maneira mais fácil de encontrar e reservar os melhores restaurantes.</p>
+                <hr class="my-4">
+                <p>Descubra restaurantes próximos, veja avaliações e faça reservas com apenas alguns cliques.</p>
+                <button class="btn btn-primary btn-lg" id="explore-btn">Explorar Restaurantes</button>
+            </div>
+
+            <h2 class="mt-5 mb-4">Restaurantes em Destaque</h2>
+            <div class="row" id="featured-restaurants">
+                <!-- Restaurantes em destaque serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página de restaurantes (oculta por padrão) -->
+        <div id="restaurants-page" class="page">
+            <h2 class="mb-4">Encontre o Restaurante Perfeito</h2>
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar restaurantes..." id="search-input">
+                        <button class="btn btn-primary" id="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" id="cuisine-filter">
+                        <option value="all">Todas as culinárias</option>
+                        <option value="italiana">Italiana</option>
+                        <option value="japonesa">Japonesa</option>
+                        <option value="brasileira">Brasileira</option>
+                        <option value="francesa">Francesa</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row" id="restaurants-list">
+                <!-- Lista de restaurantes será inserida aqui via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página de minhas reservas (oculta por padrão) -->
+        <div id="reservations-page" class="page">
+            <h2 class="mb-4">Minhas Reservas</h2>
+            <div class="alert alert-info" id="login-alert">
+                <i class="fas fa-info-circle"></i> Faça login para ver suas reservas.
+            </div>
+            <div id="reservations-list" class="d-none">
+                <!-- Lista de reservas será inserida aqui via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Modal de Login -->
+        <div class="modal fade" id="login-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label for="login-email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="login-email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="login-password" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="login-password" required>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember-me">
+                                    <label class="form-check-label" for="remember-me">Lembrar-me</label>
+                                </div>
+                                <a href="#" class="text-decoration-none">Esqueceu a senha?</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <p class="mb-0">Não tem uma conta? <a href="#" id="register-link">Registre-se</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Registro -->
+        <div class="modal fade" id="register-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Criar Conta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="register-form">
+                            <div class="mb-3">
+                                <label for="register-name" class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="register-name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="register-email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="register-email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="register-phone" class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="register-phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="register-password" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="register-password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="register-confirm-password" class="form-label">Confirmar Senha</label>
+                                <input type="password" class="form-control" id="register-confirm-password" required>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="terms" required>
+                                <label class="form-check-label" for="terms">Concordo com os <a href="#">Termos e Condições</a></label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <p class="mb-0">Já tem uma conta? <a href="#" id="login-link">Faça login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Detalhes do Restaurante -->
+        <div class="modal fade" id="restaurant-modal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="restaurant-name">Nome do Restaurante</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img id="restaurant-image" src="" alt="Restaurante" class="img-fluid rounded mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="me-2" id="restaurant-rating"></div>
+                                    <span id="restaurant-cuisine"></span>
+                                </div>
+                                <p id="restaurant-address"></p>
+                                <p id="restaurant-description"></p>
+                                <div id="restaurant-open-status" class="mb-3"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Fazer Reserva</h5>
+                                <form id="reservation-form">
+                                    <div class="mb-3">
+                                        <label for="reservation-date" class="form-label">Data</label>
+                                        <input type="date" class="form-control" id="reservation-date" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reservation-time" class="form-label">Horário</label>
+                                        <select class="form-select" id="reservation-time" required>
+                                            <option value="">Selecione um horário</option>
+                                            <option value="12:00">12:00</option>
+                                            <option value="12:30">12:30</option>
+                                            <option value="13:00">13:00</option>
+                                            <option value="13:30">13:30</option>
+                                            <option value="19:00">19:00</option>
+                                            <option value="19:30">19:30</option>
+                                            <option value="20:00">20:00</option>
+                                            <option value="20:30">20:30</option>
+                                            <option value="21:00">21:00</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reservation-guests" class="form-label">Número de Pessoas</label>
+                                        <select class="form-select" id="reservation-guests" required>
+                                            <option value="1">1 pessoa</option>
+                                            <option value="2" selected>2 pessoas</option>
+                                            <option value="3">3 pessoas</option>
+                                            <option value="4">4 pessoas</option>
+                                            <option value="5">5 pessoas</option>
+                                            <option value="6">6 pessoas</option>
+                                            <option value="7">7 pessoas</option>
+                                            <option value="8">8 pessoas</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reservation-notes" class="form-label">Observações Especiais</label>
+                                        <textarea class="form-control" id="reservation-notes" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Confirmar Reserva</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>MESACERTA</h5>
+                    <p>A sua mesa perfeita à distância de um toque.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Links Úteis</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Sobre Nós</a></li>
+                        <li><a href="#" class="text-white">Termos de Uso</a></li>
+                        <li><a href="#" class="text-white">Política de Privacidade</a></li>
+                        <li><a href="#" class="text-white">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contato</h5>
+                    <address>
+                        <i class="fas fa-map-marker-alt"></i> Rua Exemplo, 123<br>
+                        <i class="fas fa-phone"></i> +351 123 456 789<br>
+                        <i class="fas fa-envelope"></i> contato@mesacerta.pt
+                    </address>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 MESACERTA. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
